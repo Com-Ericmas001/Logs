@@ -5,7 +5,7 @@ namespace Com.Ericmas001.Logs.Services
 {
     public class LoggerConfiguration : ILoggerConfiguration
     {
-        public LogLevelEnum LogLevel { get; set; } = LogLevelEnum.Normal;
+        public LogLevelEnum MinimumLogLevel { get; set; } = LogLevelEnum.Normal;
         public bool ShowTimestamp { get; set; } = true;
     }
 }

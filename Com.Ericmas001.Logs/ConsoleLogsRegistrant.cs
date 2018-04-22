@@ -8,7 +8,7 @@ namespace Com.Ericmas001.Logs
     {
         protected override void RegisterEverything()
         {
-            RegisterInstance(new LoggerConfiguration());
+            RegisterInstance<ILoggerConfiguration>(new LoggerConfiguration());
             Register<ILoggerService, ConsoleLoggerService>();
         }
     }

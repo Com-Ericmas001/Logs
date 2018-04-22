@@ -4,7 +4,7 @@ namespace Com.Ericmas001.Logs.Services.Interfaces
 {
     public interface ILoggerConfiguration
     {
-        LogLevelEnum LogLevel { get; }
+        LogLevelEnum MinimumLogLevel { get; }
         bool ShowTimestamp { get; }
     }
 }

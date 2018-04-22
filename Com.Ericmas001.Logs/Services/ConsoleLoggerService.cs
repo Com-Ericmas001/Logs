@@ -17,7 +17,7 @@ namespace Com.Ericmas001.Logs.Services
         {
             string TimeStamp() => $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ";
 
-            if (level >= m_LoggerConfiguration.LogLevel)
+            if (level <= m_LoggerConfiguration.MinimumLogLevel)
             {
                 Console.WriteLine($"{(m_LoggerConfiguration.ShowTimestamp ? TimeStamp() : string.Empty)}{message}");
             }
