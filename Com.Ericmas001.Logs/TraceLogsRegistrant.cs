@@ -10,7 +10,7 @@ namespace Com.Ericmas001.Logs
         protected override void RegisterEverything()
         {
             RegisterInstance<ILoggerConfiguration>(new LoggerConfiguration{MinimumLogLevel = LogLevelEnum.Verbose});
-            Register<ILoggerService, ConsoleLoggerService>();
+            Register<ILoggerService, TraceLoggerService>();
         }
     }
 }
