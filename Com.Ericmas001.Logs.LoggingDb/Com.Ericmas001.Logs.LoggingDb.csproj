@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Description>Com.Ericmas001.Logs</Description>
+    <Description>Com.Ericmas001.Logs.LoggingDb</Description>
     <Version>0.2.0</Version>
     <Company>Ericmas001</Company>
     <Authors>Ericmas001</Authors>
@@ -18,7 +18,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Com.Ericmas001.DependencyInjection" Version="0.2.0" />
+    <PackageReference Include="Com.Ericmas001.DependencyInjection" Version="1.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Com.Ericmas001.Logs\Com.Ericmas001.Logs.csproj" />
   </ItemGroup>
 
 </Project>
