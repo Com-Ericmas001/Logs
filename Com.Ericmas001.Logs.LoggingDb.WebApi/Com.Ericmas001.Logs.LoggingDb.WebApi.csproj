@@ -2,6 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>Com.Ericmas001.Logs.LoggingDb.WebApi</Description>
+    <Version>0.2.0</Version>
+    <Company>Ericmas001</Company>
+    <Authors>Ericmas001</Authors>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/Com-Ericmas001/Logs/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Com-Ericmas001/Logs</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/Com-Ericmas001/Common/raw/master/Resources/lib.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Com-Ericmas001/Logs</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>Development Version</PackageTags>
+    <NeutralLanguage>English</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
