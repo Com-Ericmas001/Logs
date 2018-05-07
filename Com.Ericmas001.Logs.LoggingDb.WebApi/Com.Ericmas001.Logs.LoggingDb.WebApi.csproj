@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Description>Com.Ericmas001.Logs.LoggingDb.WebApi</Description>
-    <Version>0.2.0</Version>
+    <Version>0.2.1</Version>
     <Company>Ericmas001</Company>
     <Authors>Ericmas001</Authors>
     <PackageLicenseUrl>https://raw.githubusercontent.com/Com-Ericmas001/Logs/master/LICENSE</PackageLicenseUrl>
@@ -18,8 +18,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Com.Ericmas001.Logs.LoggingDb\Com.Ericmas001.Logs.LoggingDb.csproj" />
+    <ProjectReference Include="..\Com.Ericmas001.Logs\Com.Ericmas001.Logs.csproj" />
   </ItemGroup>
 
 </Project>

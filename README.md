@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/Com-Ericmas001/Logs.svg?branch=master)](https://travis-ci.org/Com-Ericmas001/Logs)
 [![com-ericmas001 MyGet Build Status](https://www.myget.org/BuildSource/Badge/com-ericmas001?identifier=53037e42-4325-4957-948d-06efeae26a1f)](https://www.myget.org/)
 
-###Current Version: 0.2.0 *(2018-05-06)*
+###Current Version: 0.2.1 *(2018-05-06)*
 <table align="center" width="100%">
     <tbody>
         <tr>
