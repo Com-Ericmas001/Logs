@@ -4,7 +4,7 @@ using Com.Ericmas001.Logs.Services.Interfaces;
 
 namespace Com.Ericmas001.Logs.Services
 {
-    public class ConsoleLoggerService : ILoggerService
+    public class ConsoleLoggerService : AbstractLoggerService
     {
         private readonly ILoggerConfiguration m_LoggerConfiguration;
 
@@ -13,7 +13,7 @@ namespace Com.Ericmas001.Logs.Services
             m_LoggerConfiguration = loggerConfiguration;
         }
 
-        public void Log(LogLevelEnum level, string message)
+        public override void Log(LogLevelEnum level, string message)
         {
             string TimeStamp() => $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ";
 
