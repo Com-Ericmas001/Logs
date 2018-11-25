@@ -11,6 +11,7 @@ namespace Com.Ericmas001.Logs.LoggingDb
         public Dictionary<string, string> ConnectionStrings { get; set; }
         protected override void RegisterEverything()
         {
+            // ReSharper disable once AssignNullToNotNullAttribute
             Register<ILoggingDbContext, LoggingDbContext>(() => new LoggingDbContext(ConnectionStrings[GetType().Namespace]));
 
             Register<ILogWriterService, LogWriterService>();

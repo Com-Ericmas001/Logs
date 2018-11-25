@@ -6,20 +6,20 @@ namespace Com.Ericmas001.Logs.Services
 {
     public class ConsoleLoggerService : AbstractLoggerService
     {
-        private readonly ILoggerConfiguration m_LoggerConfiguration;
+        private readonly ILoggerConfiguration _loggerConfiguration;
 
         public ConsoleLoggerService(ILoggerConfiguration loggerConfiguration)
         {
-            m_LoggerConfiguration = loggerConfiguration;
+            _loggerConfiguration = loggerConfiguration;
         }
 
         public override void Log(LogLevelEnum level, string message)
         {
             string TimeStamp() => $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ";
 
-            if (level <= m_LoggerConfiguration.MinimumLogLevel)
+            if (level <= _loggerConfiguration.MinimumLogLevel)
             {
-                Console.WriteLine($"{(m_LoggerConfiguration.ShowTimestamp ? TimeStamp() : string.Empty)}{message}");
+                Console.WriteLine($"{(_loggerConfiguration.ShowTimestamp ? TimeStamp() : string.Empty)}{message}");
             }
 
         }

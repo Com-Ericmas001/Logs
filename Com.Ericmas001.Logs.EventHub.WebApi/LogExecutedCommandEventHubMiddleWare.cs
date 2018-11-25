@@ -4,26 +4,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Com.Ericmas001.Logs.Enums;
-using Com.Ericmas001.Logs.LoggingDb.Services.Interfaces;
 using Com.Ericmas001.Logs.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Azure.EventHubs;
 using Newtonsoft.Json;
 
-namespace Com.Ericmas001.Logs.LoggingDb.WebApi
+namespace Com.Ericmas001.Logs.EventHub.WebApi
 {
-    public class LoggingDbMiddleWare
+    public static class LoggingEventHubMiddleWareExtensions
     {
+        public static IApplicationBuilder LogExecutedCommandsOnEventHub(this IApplicationBuilder builder, string eventHubName, string connectionString, string processName)
+        {
+            LogExecutedCommandEventHubMiddleWare.EventHubConnectionString = connectionString;
+            LogExecutedCommandEventHubMiddleWare.EventHubName = eventHubName;
+            LogExecutedCommandEventHubMiddleWare.ProcessName = processName;
+            return builder.UseMiddleware<LogExecutedCommandEventHubMiddleWare>();
+        }
+    }
+
+    public class LogExecutedCommandEventHubMiddleWare
+    {
+        internal static string EventHubConnectionString;
+        internal static string EventHubName;
+        internal static string ProcessName;
         private readonly RequestDelegate _next;
-        private readonly ILogWriterService _logWriterService;
         private readonly ILoggerService _loggerService;
 
-        public LoggingDbMiddleWare(RequestDelegate next, ILogWriterService logWriterService, ILoggerService loggerService)
+        public LogExecutedCommandEventHubMiddleWare(RequestDelegate next, ILoggerService loggerService)
         {
             _next = next;
-            _logWriterService = logWriterService;
             _loggerService = loggerService;
         }
 
@@ -36,7 +48,9 @@ namespace Com.Ericmas001.Logs.LoggingDb.WebApi
             context.Response.Body = memStream;
 
 
+            var startedAt = DateTimeOffset.Now;
             await _next.Invoke(context);
+            var endedAt = DateTimeOffset.Now;
 
 
 
@@ -97,6 +111,7 @@ namespace Com.Ericmas001.Logs.LoggingDb.WebApi
                 {
                     context.Response.Body = originalBody;
                 }
+
                 string responseCode = $"{result.StatusCode}";
                 string clientIp = context.Connection.RemoteIpAddress.ToString();
                 var ip = string.IsNullOrEmpty(clientIp) ? "Unknown" : clientIp;
@@ -107,20 +122,58 @@ namespace Com.Ericmas001.Logs.LoggingDb.WebApi
                 var ag = string.IsNullOrEmpty(userAgent) ? "Unknown" : userAgent;
                 if (ag.Length > 4000)
                     ag = ag.Remove(4000);
-                _logWriterService.LogExecutedCommand(ip, ag, service, endpoint, request.Method, parms, requestContentType, requestBody, responseContentType, responseBody, responseCode);
+
+                // Creates an EventHubsConnectionStringBuilder object from the connection string, and sets the EntityPath.
+                // Typically, the connection string should have the entity path in it, but for the sake of this simple scenario
+                // we are using the connection string from the namespace.
+                var connectionStringBuilder = new EventHubsConnectionStringBuilder(EventHubConnectionString)
+                {
+                    EntityPath = EventHubName
+                };
+                var eventHubClient = EventHubClient.CreateFromConnectionString(connectionStringBuilder.ToString());
+                await eventHubClient.SendAsync(new EventData(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new
+                {
+                    header = new
+                    {
+                        type = "ExecutedCommand",
+                        version = "1",
+                        process = ProcessName
+                    },
+                    body = new
+                    {
+                        client = new
+                        {
+                            ip,
+                            userAgent = ag
+                        },
+                        service = new
+                        {
+                            baseUrl = service,
+                            endpoint,
+                            requestMethod = request.Method
+                        },
+                        request = new
+                        {
+                            requestedAt = startedAt,
+                            parameters = parms,
+                            contentType = requestContentType,
+                            body = requestBody
+                        },
+                        response = new
+                        {
+                            returnedAt = endedAt,
+                            returnCode = responseCode,
+                            contentType = responseContentType,
+                            body = responseBody
+                        }
+                    }
+                }, Formatting.Indented))));
+                await eventHubClient.CloseAsync();
             }
             catch (Exception e)
             {
                 _loggerService.Log(LogLevelEnum.Error, e.ToString());
             }
-
-        }
-    }
-    public static class LoggingDbMiddleWareExtensions
-    {
-        public static IApplicationBuilder UseLoggingDb(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<LoggingDbMiddleWare>();
         }
     }
 }

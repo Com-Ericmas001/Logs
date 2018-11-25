@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Description>Com.Ericmas001.Logs</Description>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
     <Company>Ericmas001</Company>
     <Authors>Ericmas001</Authors>
     <PackageLicenseUrl>https://raw.githubusercontent.com/Com-Ericmas001/Logs/master/LICENSE</PackageLicenseUrl>
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Com.Ericmas001.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Com.Ericmas001.DependencyInjection" Version="2.2.0" />
   </ItemGroup>
 
 </Project>

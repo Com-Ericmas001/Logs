@@ -1,4 +1,3 @@
-using System;
 using Com.Ericmas001.Logs.LoggingDb.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,11 +5,11 @@ namespace Com.Ericmas001.Logs.LoggingDb
 {
     public class LoggingDbContext : DbContext, ILoggingDbContext
     {
-        private readonly string m_ConnString;
+        private readonly string _connString;
 
         public LoggingDbContext(string connString)
         {
-            m_ConnString = connString;
+            _connString = connString;
         }
 
         public virtual DbSet<Client> Clients { get; set; }
@@ -22,7 +21,7 @@ namespace Com.Ericmas001.Logs.LoggingDb
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(m_ConnString);
+                optionsBuilder.UseSqlServer(_connString);
             }
         }
         public void SetCommandTimeout(int value)
